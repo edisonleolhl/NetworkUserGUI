@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>666</width>
-    <height>597</height>
+    <width>823</width>
+    <height>737</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,45 +38,41 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <widget class="QLabel" name="query_path_label">
        <property name="text">
         <string>Query Path</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="query_button">
+     <item row="2" column="1">
+      <widget class="QPushButton" name="query_path_button">
        <property name="text">
         <string>Query !</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QTextBrowser" name="query_path_browser"/>
      </item>
-     <item row="12" column="0">
-      <widget class="QLabel" name="max_bandwidth_label">
-       <property name="text">
-        <string>Max bandwidth</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0">
+     <item row="11" column="0">
       <widget class="QLabel" name="choose_path_label">
        <property name="text">
         <string>Choose Path</string>
        </property>
       </widget>
      </item>
-     <item row="11" column="0">
+     <item row="11" column="1">
+      <layout class="QFormLayout" name="choose_path_formLayout"/>
+     </item>
+     <item row="12" column="0">
       <widget class="QLabel" name="remaining_bandwidth_label">
        <property name="text">
         <string>Remaining bandwidth</string>
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
+     <item row="12" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -91,7 +87,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="query_remaining_bw_button">
            <property name="text">
             <string>Query!</string>
            </property>
@@ -101,7 +97,14 @@
        </item>
       </layout>
      </item>
-     <item row="12" column="1">
+     <item row="13" column="0">
+      <widget class="QLabel" name="max_bandwidth_label">
+       <property name="text">
+        <string>Max bandwidth</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_7">
        <item>
         <widget class="QLineEdit" name="bandwidth_edit"/>
@@ -122,18 +125,41 @@
        </item>
       </layout>
      </item>
-     <item row="10" column="1">
-      <layout class="QFormLayout" name="formLayout_5"/>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Destination host</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="dst_comboBox"/>
      </item>
     </layout>
    </widget>
+   <zorder>gridLayoutWidget_2</zorder>
+   <zorder>formLayoutWidget</zorder>
+   <zorder>label_4</zorder>
+   <zorder>bandwidth_edit</zorder>
+   <zorder>limit_button</zorder>
+   <zorder>lcdNumber</zorder>
+   <zorder>label_2</zorder>
+   <zorder>query_remaining_bw_button</zorder>
+   <zorder>bandwidth_edit</zorder>
+   <zorder>label_4</zorder>
+   <zorder>limit_button</zorder>
+   <zorder>lcdNumber</zorder>
+   <zorder>label_2</zorder>
+   <zorder>query_remaining_bw_button</zorder>
+   <zorder>user_label</zorder>
+   <zorder>user</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>666</width>
+     <width>823</width>
      <height>25</height>
     </rect>
    </property>
