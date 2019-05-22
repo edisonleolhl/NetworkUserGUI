@@ -1,14 +1,17 @@
 # conding=utf-8
+import os
 import sys
 import client
 import socket
 import requests
 import json
-from PyQt5.QtCore import Qt
-from PyQt5 import QtWidgets
+from PyQt5.QtCore import Qt, QRegExp
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
 nat0_ip = '10.0.0.4'
+access_table = {'10.0.0.1': 's1-eth1', '10.0.0.2': 's1-eth2', '10.0.0.3': 's5-eth1'}
+max_bw = 25
 base_url = 'http://'+ nat0_ip +':8080/network/'
 print('base_url: ' + base_url)
 
@@ -29,15 +32,16 @@ def get_host_ip():
 
 def on_query_path_button_clicked():
     print('query path button was pressed!')
-    # disconnect signal, otherwise press button may invoke several events
-    # ui.query_remaining_bw_button.clicked.disconnect(on_query_remaining_bw_button_clicked)
-    # if not click the query path button for the first timet
-    if ui.choose_path_label or ui.choose_path_comboBox:
-        # delete all widges in choose path layou
-        for i in reversed(range(ui.choose_path_formLayout.count())):
-            ui.choose_path_formLayout.itemAt(i).widget().setParent(None)
-        for i in reversed(range(ui.bw_layout.count())):
-            ui.bw_layout.itemAt(i).widget().setParent(None)
+    # if not click the query path button for the first time,
+    # then delete all widges in 'choose_path_layout' and 'query_bw_layout'
+    if ui.choose_path_label:
+        for i in reversed(range(ui.choose_path_layout.count())):
+            ui.choose_path_layout.itemAt(i).widget().setParent(None)
+        for i in reversed(range(ui.query_bw_layout.count())):
+            ui.query_bw_layout.itemAt(i).widget().setParent(None)
+        for i in reversed(range(ui.limit_bw_layout.count())):
+            ui.limit_bw_layout.itemAt(i).widget().setParent(None)
+
 
     ui.query_path_browser.setText('Available paths are as follows:')
     for i, item in enumerate(data_json.items()):
@@ -49,14 +53,15 @@ def on_query_path_button_clicked():
             print('current destination is ' + dst)
             ui.query_path_browser.append('--------------------' + src + '-->' + dst + ' ( IP Address: ' + dst_ip + ')' +
                                          '--------------------')
+            # 'choose_path_layout' contains a label and a comboBox
             ui.choose_path_label = QtWidgets.QLabel(ui.widget)
             ui.choose_path_label.setObjectName("choose_path_label")
             ui.choose_path_label.setText(src + '-->' + dst )
-            ui.choose_path_formLayout.setWidget(i, QtWidgets.QFormLayout.LabelRole, ui.choose_path_label)
+            ui.choose_path_layout.setWidget(i, QtWidgets.QFormLayout.LabelRole, ui.choose_path_label)
 
             ui.choose_path_comboBox = QtWidgets.QComboBox(ui.widget)
             ui.choose_path_comboBox.setObjectName("choose_path_comboBox")
-            ui.choose_path_formLayout.setWidget(i, QtWidgets.QFormLayout.FieldRole, ui.choose_path_comboBox)
+            ui.choose_path_layout.setWidget(i, QtWidgets.QFormLayout.FieldRole, ui.choose_path_comboBox)
             for i, path in enumerate(paths):
                 display_path = src + '-->'
                 for switch_id in path:
@@ -66,20 +71,37 @@ def on_query_path_button_clicked():
                 ui.choose_path_comboBox.addItem(display_path)
             ui.choose_path_comboBox.activated[str].connect(on_choose_path_comboBox_activated)
 
+            # 'query_bw_layout' contains a lcdNumber, a label and a button
             ui.lcdNumber = QtWidgets.QLCDNumber(ui.widget)
             ui.lcdNumber.setObjectName("lcdNumber")
-            ui.bw_layout.addWidget(ui.lcdNumber)
+            ui.query_bw_layout.addWidget(ui.lcdNumber)
             ui.unit_label = QtWidgets.QLabel(ui.widget)
             ui.unit_label.setObjectName("unit_label")
             ui.unit_label.setText('Mb/s')
             ui.unit_label.setAlignment(Qt.AlignCenter)
-            ui.bw_layout.addWidget(ui.unit_label)
+            ui.query_bw_layout.addWidget(ui.unit_label)
             ui.query_remaining_bw_button = QtWidgets.QPushButton(ui.widget)
             ui.query_remaining_bw_button.setObjectName("query_remaining_bw_button")
             ui.query_remaining_bw_button.setText("Query !")
-            ui.bw_layout.addWidget(ui.query_remaining_bw_button)
-
+            ui.query_bw_layout.addWidget(ui.query_remaining_bw_button)
             ui.query_remaining_bw_button.clicked.connect(on_query_remaining_bw_button_clicked)
+
+            # 'limit_bw_layout' contains a LineEdit, a unit label and a button
+            ui.limit_bw_edit = QtWidgets.QLineEdit(ui.widget)
+            ui.limit_bw_edit.setText('0-9 only! 0 means no limitation!')
+            ui.limit_bw_edit.setObjectName("limit_bw_edit")
+            regex = QRegExp('^[0-9]$') # only one digit number from 0 to 9, 0 means no qos limitation
+            validator = QtGui.QRegExpValidator(regex)
+            ui.limit_bw_edit.setValidator(validator)
+            ui.limit_bw_layout.addWidget(ui.limit_bw_edit)
+            ui.limit_bw_unit_label = QtWidgets.QLabel(ui.widget)
+            ui.limit_bw_unit_label.setObjectName("limit_bw_unit_label")
+            ui.limit_bw_layout.addWidget(ui.limit_bw_unit_label)
+            ui.limit_bw_button = QtWidgets.QPushButton(ui.widget)
+            ui.limit_bw_button.setObjectName("limit_bw_button")
+            ui.limit_bw_button.setText("Limit !")
+            ui.limit_bw_layout.addWidget(ui.limit_bw_button)
+            ui.limit_bw_button.clicked.connect(on_limit_bw_button_clicked)
             break
 
 def on_choose_path_comboBox_activated(text):
@@ -101,17 +123,20 @@ def on_dst_comboBox_activated(text):
     msgBox = QMessageBox(QMessageBox.NoIcon, 'Dialog', 'Choose destination success!\nCurrent destination: ' + text)
     msgBox.exec()
     ui.query_path_button.setText('Query path to ' + text + ' !')
-    # if not click the query path button for the first time, then delete all widges in choose path layout
-    if ui.choose_path_label or ui.choose_path_comboBox:
-        for i in reversed(range(ui.choose_path_formLayout.count())):
-            ui.choose_path_formLayout.itemAt(i).widget().setParent(None)
-        for i in reversed(range(ui.bw_layout.count())):
-            ui.bw_layout.itemAt(i).widget().setParent(None)
+    # if not click the query path button for the first time,
+    # then delete all widges in 'choose_path_layout' and 'query_bw_layout'
+    if ui.choose_path_label:
+        for i in reversed(range(ui.choose_path_layout.count())):
+            ui.choose_path_layout.itemAt(i).widget().setParent(None)
+        for i in reversed(range(ui.query_bw_layout.count())):
+            ui.query_bw_layout.itemAt(i).widget().setParent(None)
+        for i in reversed(range(ui.limit_bw_layout.count())):
+            ui.limit_bw_layout.itemAt(i).widget().setParent(None)
     ui.query_path_browser.setText('')
 
 
 def on_query_remaining_bw_button_clicked():
-    print('query remaining bw button was presed !')
+    print('query remaining bw button was pressed !')
     current_path_raw = ui.choose_path_comboBox.currentText() # current_path_raw = 'h1-->s1-->h2'
     # print('current_path_raw: ' + current_path_raw)
     extra_url = 'query-remaining-bandwidth'
@@ -123,6 +148,24 @@ def on_query_remaining_bw_button_clicked():
     print(response.text)
     free_bw = json.loads(response.text)["free_bw"]
     ui.lcdNumber.display(free_bw)
+
+def on_limit_bw_button_clicked():
+    print("limit bw button was pressed!")
+    limit_bw = ui.limit_bw_edit.text()
+    try:
+        assert int(limit_bw)
+        print('limit_bw: ' + limit_bw)
+        limit_bw = int(limit_bw)
+        # limit_bw = 0 means no qos limitation
+        os.system('ovs-vsctl set interface ' + access_table[current_host_ip] + ' ingress_policing_rate=' + str(limit_bw*1000))
+        os.system('ovs-vsctl set interface ' + access_table[current_host_ip] + ' ingress_policing_burst=' + str(limit_bw*100))
+    except Exception as e:
+        msgBox = QMessageBox(QMessageBox.NoIcon, 'Error', 'Please input legal integer!!!\n'
+                                                          'Legal integer includes from 0 to 9!\n'
+                                                          '0 means no limitation, '
+                                                          'you can submit 0 after limit max bandwidth '
+                                                          'if you want to cancel the limitation')
+        msgBox.exec()
 
 app = QApplication(sys.argv)
 MainWindow = QMainWindow()

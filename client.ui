@@ -63,7 +63,7 @@
       </widget>
      </item>
      <item row="11" column="1">
-      <layout class="QFormLayout" name="choose_path_formLayout"/>
+      <layout class="QFormLayout" name="choose_path_layout"/>
      </item>
      <item row="12" column="0">
       <widget class="QLabel" name="remaining_bandwidth_label">
@@ -80,25 +80,7 @@
       </widget>
      </item>
      <item row="13" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QLineEdit" name="bandwidth_edit"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Mb/s</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="limit_button">
-         <property name="text">
-          <string>Limit !</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <layout class="QHBoxLayout" name="limit_bw_layout"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label">
@@ -111,21 +93,21 @@
       <widget class="QComboBox" name="dst_comboBox"/>
      </item>
      <item row="12" column="1">
-      <layout class="QHBoxLayout" name="bw_layout"/>
+      <layout class="QHBoxLayout" name="query_bw_layout"/>
      </item>
     </layout>
    </widget>
    <zorder>gridLayoutWidget_2</zorder>
    <zorder>formLayoutWidget</zorder>
-   <zorder>label_4</zorder>
-   <zorder>bandwidth_edit</zorder>
-   <zorder>limit_button</zorder>
+   <zorder>limit_bw_unit_label</zorder>
+   <zorder>limit_bw_edit</zorder>
+   <zorder>limit_bw_button</zorder>
    <zorder>lcdNumber</zorder>
    <zorder>unit_label</zorder>
    <zorder>query_remaining_bw_button</zorder>
-   <zorder>bandwidth_edit</zorder>
-   <zorder>label_4</zorder>
-   <zorder>limit_button</zorder>
+   <zorder>limit_bw_edit</zorder>
+   <zorder>limit_bw_unit_label</zorder>
+   <zorder>limit_bw_button</zorder>
    <zorder>lcdNumber</zorder>
    <zorder>unit_label</zorder>
    <zorder>query_remaining_bw_button</zorder>
