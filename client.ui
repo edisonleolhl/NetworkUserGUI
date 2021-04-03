@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
-    <height>553</height>
+    <width>733</width>
+    <height>577</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Client GUI</string>
+   <string>用户可定义网络——用户客户端</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>60</y>
+      <x>20</x>
+      <y>90</y>
       <width>711</width>
       <height>441</height>
      </rect>
@@ -26,7 +26,7 @@
     <property name="styleSheet">
      <string notr="true"/>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -50,8 +50,13 @@
            <height>17</height>
           </rect>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
          <property name="text">
-          <string>Charging Plan</string>
+          <string>服务方案</string>
          </property>
         </widget>
         <widget class="QWidget" name="layoutWidget">
@@ -70,7 +75,7 @@
       <item>
        <widget class="QWidget" name="widget_5" native="true">
         <property name="styleSheet">
-         <string notr="true">background: rgb(255, 233, 254)</string>
+         <string notr="true">background: rgb(238, 255, 244)</string>
         </property>
         <widget class="QLabel" name="attention_label">
          <property name="geometry">
@@ -81,11 +86,16 @@
            <height>51</height>
           </rect>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>  Attention:    </string>
+          <string>注意事项          </string>
          </property>
         </widget>
         <widget class="QWidget" name="verticalLayoutWidget">
@@ -101,7 +111,7 @@
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
-             <string> The bandwidth you want is limited by the free bandwidth above. </string>
+             <string>1. 输入带宽最大值不能超过剩余带宽</string>
             </property>
            </widget>
           </item>
@@ -111,7 +121,7 @@
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>You can overwrite your charging plan as well as the desired bandwidth.</string>
+             <string>2. 可直接覆盖服务方案与输入带宽</string>
             </property>
            </widget>
           </item>
@@ -133,32 +143,33 @@
            <height>41</height>
           </rect>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
          <property name="text">
-          <string> Choose your charging plan:</string>
+          <string>选择服务方案</string>
          </property>
         </widget>
         <widget class="QComboBox" name="charging_plan_comboBox">
          <property name="geometry">
           <rect>
-           <x>220</x>
+           <x>180</x>
            <y>40</y>
            <width>81</width>
            <height>31</height>
           </rect>
          </property>
         </widget>
-        <zorder>choose_charging_plan_label</zorder>
-        <zorder>charging_plan_comboBox</zorder>
-        <zorder>attention_label</zorder>
-        <zorder>widget_5</zorder>
        </widget>
       </item>
       <item>
        <widget class="QWidget" name="widget_3" native="true">
         <property name="styleSheet">
-         <string notr="true">background: rgb(255, 184, 195)</string>
+         <string notr="true">background: rgb(255, 202, 192)</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -170,8 +181,13 @@
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <widget class="QLabel" name="user_want_label">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
             <property name="text">
-             <string> How much bandwidth do you want?</string>
+             <string>请输入想要的带宽            </string>
             </property>
            </widget>
           </item>
@@ -210,7 +226,7 @@
           <item>
            <widget class="QPushButton" name="user_want_button">
             <property name="text">
-             <string>GO!</string>
+             <string>确认!</string>
             </property>
            </widget>
           </item>
@@ -220,26 +236,26 @@
       </item>
      </layout>
     </widget>
-    <zorder>attention_label</zorder>
-    <zorder>layoutWidget</zorder>
-    <zorder>attention_label</zorder>
-    <zorder></zorder>
-    <zorder>widget_2</zorder>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>20</y>
+      <x>30</x>
+      <y>30</y>
       <width>261</width>
-      <height>21</height>
+      <height>27</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QLabel" name="user_label">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <property name="text">
-        <string>Current user:</string>
+        <string>当前用户</string>
        </property>
       </widget>
      </item>
@@ -252,19 +268,33 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>0</y>
+      <width>321</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>scut.png</pixmap>
+    </property>
+   </widget>
+   <zorder>layoutWidget</zorder>
    <zorder>widget</zorder>
-   <zorder>user_label</zorder>
-   <zorder>user</zorder>
-   <zorder>user_label</zorder>
-   <zorder>user</zorder>
+   <zorder>label_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>730</width>
-     <height>25</height>
+     <width>733</width>
+     <height>23</height>
     </rect>
    </property>
   </widget>

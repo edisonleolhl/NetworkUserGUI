@@ -137,7 +137,10 @@ def display_user_lcd():
             # update total display
             index = int(ui.charging_plan_comboBox.currentText()[-1])
             unit_price = int(user_path_unit_price_lcdNumber_list[index].value())
-            want_bw = int(ui.user_want_bandwidth_edit.text())
+            if len(ui.user_want_bandwidth_edit.text()) > 0:
+                want_bw = int(ui.user_want_bandwidth_edit.text())
+            else:
+                want_bw = 0
             ui.total_lcdNumber.display(want_bw * unit_price)
             break
 
@@ -173,8 +176,10 @@ def on_charging_plan_comboBox_activated():
 
 def on_user_want_bandwidth_edit_textChanged():
     print("user want bandwidth: " + ui.user_want_bandwidth_edit.text())
-    want_bw = int(ui.user_want_bandwidth_edit.text())
-
+    if len(ui.user_want_bandwidth_edit.text()) > 0:
+        want_bw = int(ui.user_want_bandwidth_edit.text())
+    else:
+        want_bw = 0
     print("user choose charging plan: " + ui.charging_plan_comboBox.currentText())
     index = int(ui.charging_plan_comboBox.currentText()[-1])
     unit_price = int(user_path_unit_price_lcdNumber_list[index].value())
@@ -188,7 +193,7 @@ def on_user_want_button_clicked():
     os.system('ovs-vsctl set interface ' + access_table[current_host_ip] + ' ingress_policing_rate=' + str(
         want_bw * 1000))
     os.system('ovs-vsctl set interface ' + access_table[current_host_ip] + ' ingress_policing_burst=' + str(
-        want_bw * 100))
+        100))
     if want_bw != 0:
         msgBox = QMessageBox(QMessageBox.NoIcon, 'Dialog',
                              'Want bandwidth success!\n'
@@ -225,9 +230,9 @@ ui.user_timer.start(3000)
 
 ui.user_want_bandwidth_edit.setText('0')
 ui.user_want_bandwidth_edit.setObjectName("limit_bw_edit")
-regex = QRegExp('^[0-9]$')  # only one digit number from 0 to 9, 0 means reset to no qos limitation
-validator = QtGui.QRegExpValidator(regex)
-ui.user_want_bandwidth_edit.setValidator(validator)
+# regex = QRegExp('^[0-9]$')  # only one digit number from 0 to 9, 0 means reset to no qos limitation
+# validator = QtGui.QRegExpValidator(regex)
+# ui.user_want_bandwidth_edit.setValidator(validator)
 ui.user_want_bandwidth_edit.textChanged.connect(on_user_want_bandwidth_edit_textChanged)
 
 ui.user_want_button.clicked.connect(on_user_want_button_clicked)
