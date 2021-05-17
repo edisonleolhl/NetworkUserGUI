@@ -225,8 +225,8 @@ user_path_unit_price_lcdNumber_list = []
 init_display()
 
 ui.user_timer = QTimer()
-ui.user_timer.timeout.connect(display_user_lcd)  # update display every 3 seconds
-ui.user_timer.start(3000)
+ui.user_timer.timeout.connect(display_user_lcd)  # update display every 1 seconds
+ui.user_timer.start(1000)
 
 ui.user_want_bandwidth_edit.setText('0')
 ui.user_want_bandwidth_edit.setObjectName("limit_bw_edit")
